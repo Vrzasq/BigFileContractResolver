@@ -13,6 +13,7 @@ namespace ConsoleApp1
             var sw = new Stopwatch();
 
             Console.WriteLine(JsonConvert.SerializeObject(new MyClass(), SerializationSettings));
+            Console.WriteLine(JsonConvert.SerializeObject(new Class1(), SerializationSettings));
 
             sw.Start();
             for (int i = 0; i < 100000; i++)
@@ -26,11 +27,10 @@ namespace ConsoleApp1
             sw.Restart();
             for (int i = 0; i < 100000; i++)
             {
-                string someobj = JsonConvert.SerializeObject(new MyClass(), Formatting.Indented);
+                string someobj = JsonConvert.SerializeObject(new MyClass());
             }
             sw.Stop();
             Console.WriteLine(sw.ElapsedMilliseconds.ToString());
-            sw.Reset();
         }
 
         private static JsonSerializerSettings SerializationSettings =

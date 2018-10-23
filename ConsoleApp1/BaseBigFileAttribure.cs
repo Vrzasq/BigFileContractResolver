@@ -7,9 +7,8 @@ using Newtonsoft.Json.Serialization;
 
 namespace ConsoleApp1
 {
-    [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
-    public abstract class BaseBigFileAttribure : Attribute
+    public abstract class BaseBigFileAttribure : BaseAttrib
     {
-        public abstract void Modify(ref JsonProperty jsonProperty);
+        public abstract IBigFileDecorator BigFileDecorator { get; }
     }
 }

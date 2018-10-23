@@ -8,7 +8,7 @@ namespace ConsoleApp1
     {
         public MyClass2()
         {
-            MyProperty = new byte[1024];
+            //MyProperty = new byte[1024];
         }
 
         [BigFile]

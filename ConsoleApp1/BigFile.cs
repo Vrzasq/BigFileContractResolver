@@ -7,34 +7,20 @@ using Newtonsoft.Json.Serialization;
 
 namespace ConsoleApp1
 {
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     public sealed class BigFileAttribute : BaseBigFileAttribure
     {
-        public BigFileAttribute()
-        {
-            SizeCheckProperty = nameof(string.Length);
-        }
+        public BigFileAttribute() =>
+            BigFileDecorator = new BigFileDecorator();
 
-        public BigFileAttribute(string sizeCheckProperty)
-        {
-            SizeCheckProperty = sizeCheckProperty;
-        }
+        public BigFileAttribute(string bigFileProperty) =>
+            BigFileDecorator = new BigFileDecorator(bigFileProperty);
 
-        public string SizeCheckProperty { get; set; }
+        public BigFileAttribute(Type type) =>
+            BigFileDecorator = (IBigFileDecorator)Activator.CreateInstance(type);
 
-        public override void Modify(ref JsonProperty jsonProperty)
-        {
-            PropertyInfo propertyInfo = jsonProperty.PropertyType.GetProperty(SizeCheckProperty);
-            if (propertyInfo != null && propertyInfo.PropertyType.IsPrimitive)
-            {
-                jsonProperty = new JsonProperty
-                {
-                    PropertyName = jsonProperty.PropertyName,
-                    PropertyType = propertyInfo.PropertyType,
-                    Readable = true,
-                    ValueProvider = new BigFileValueProvided(jsonProperty.ValueProvider, propertyInfo)
-                };
-            }
-        }
+        public BigFileAttribute(Type type, params object[] args) =>
+            BigFileDecorator = (IBigFileDecorator)Activator.CreateInstance(type, args);
+
+        public override IBigFileDecorator BigFileDecorator { get; }
     }
 }
