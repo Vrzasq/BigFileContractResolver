@@ -12,24 +12,10 @@ namespace ConsoleApp1
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             JsonProperty jsonProperty = base.CreateProperty(member, memberSerialization);
-
-            var bigFile = member.GetCustomAttribute<BigFileAttribute>();
+            var bigFile = member.GetCustomAttribute<BaseBigFileAttribure>();
 
             if (bigFile != null)
-            {
-                PropertyInfo propertyInfo = jsonProperty.PropertyType.GetProperty(bigFile.SizeCheckProperty);
-
-                if (propertyInfo != null && propertyInfo.PropertyType.IsPrimitive)
-                {
-                    jsonProperty = new JsonProperty
-                    {
-                        PropertyName = jsonProperty.PropertyName,
-                        PropertyType = propertyInfo.PropertyType,
-                        Readable = true,
-                        ValueProvider = new BigFileValueProvided(jsonProperty.ValueProvider, propertyInfo)
-                    };
-                }
-            }
+                bigFile.Modify(ref jsonProperty);
 
             return jsonProperty;
         }

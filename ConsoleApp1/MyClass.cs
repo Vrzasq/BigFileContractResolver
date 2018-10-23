@@ -34,7 +34,6 @@ namespace ConsoleApp1
         public byte[] File { get; set; }
         [BigFile("Count")]
         public List<int> Lista { get; set; }
-        [BigFile("MyProperty")]
         public MyClass2 LoL { get; set; }
     }
 }
